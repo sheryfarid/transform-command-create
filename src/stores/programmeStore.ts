@@ -75,12 +75,12 @@ export const useProgrammeStore = create<ProgrammeState & ProgrammeActions>()(
         if (ecc) s.risks.push({ id: uid('risk'), title: ecc + ' systems run SAP ECC; mainstream maintenance ends in 2027', severity: 'Critical', source: 'Inventory', status: 'open', createdAt: now() } as any);
         if (report.warnings.length) s.risks.push({ id: uid('risk'), title: 'Shared SID may make the "24 systems" count misleading for wave planning', severity: 'High', source: 'Import validation', status: 'open', createdAt: now() } as any);
         const noOwnerCount: any = systems.filter((x) => isMissing(x.facts.owner.value)).length;
-        if (noOwnerCount) { s.risks.push({ id: uid('risk'), title: String(noOwnerCount) + ' systems have no accountable source owner', severity: 'High' as const, source: 'Inventory', status: 'open' as const, createdAt: now() }); }
+        if (noOwnerCount) { (s.risks as any[]).push({ id: uid('risk'), title: String(noOwnerCount) + ' systems have no accountable source owner', severity: 'High', source: 'Inventory', status: 'open', createdAt: now() }); }
         audit(s, 'Inventory imported', 'sample.csv');
         SAMPLE_DOCS.forEach((doc: any) => {
           const id = uid('doc');
           s.docs.unshift({
-            id, name: doc.name, type: doc.type, size: 1024, classification: doc.classification,             injection: doc.injection ?? null,
+            id, name: doc.name, type: doc.type, size: '1024', classification: doc.classification, injection: doc.injection ?? null,
             status: 'review', rejectReason: null, stage: STAGES.length,
             uploadedAt: now(),
             candidates: doc.candidates.map((c: any) => {
