@@ -80,7 +80,7 @@ export const useProgrammeStore = create<ProgrammeState & ProgrammeActions>()(
         SAMPLE_DOCS.forEach((doc: any) => {
           const id = uid('doc');
           s.docs.unshift({
-            id, name: doc.name, type: doc.type, size: '1024', classification: doc.classification, injection: doc.injection ?? null,
+            id, name: doc.name, type: doc.type, size: String(1024), classification: doc.classification, injection: (doc.injection as any) ?? null,
             status: 'review', rejectReason: null, stage: STAGES.length,
             uploadedAt: now(),
             candidates: doc.candidates.map((c: any) => {
